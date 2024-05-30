@@ -1,0 +1,51 @@
+version: '3'
+
+networks:
+  internal:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./data/logs:/var/log/nginx/
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - internal
+  php:
+    build:
+      context: ./config/php
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - ./src:/var/www/html
+      - ./data/logs:/var/log/php
+    ports:
+      - "9000:9000"
+    networks:
+      - internal
+  mysql:
+    image: mysql:8.1
+    container_name: mysql
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./config/mysql/mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
+      - ./data/mysql:/var/lib/mysql
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    networks:
+      - internal

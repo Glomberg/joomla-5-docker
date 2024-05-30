@@ -1,0 +1,5 @@
+.idea
+/data/logs/*
+!/data/logs/.empty
+/data/mysql/*
+!/data/mysql/.empty
