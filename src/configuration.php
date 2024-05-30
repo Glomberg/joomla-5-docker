@@ -9,7 +9,7 @@ class JConfig {
 	public $captcha = '0';
 	public $list_limit = 20;
 	public $access = 1;
-	public $debug = false;
+    public $debug = true;
 	public $debug_lang = false;
 	public $debug_lang_const = true;
 	public $dbtype = 'mysqli';
@@ -28,7 +28,7 @@ class JConfig {
 	public $live_site = '';
 	public $secret = 'vWbbnXsYBx9i2Prd';
 	public $gzip = false;
-	public $error_reporting = 'default';
+	public $error_reporting = 'maximum';
 	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 	public $offset = 'UTC';
 	public $mailonline = true;
